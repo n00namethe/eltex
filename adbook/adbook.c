@@ -14,7 +14,7 @@ typedef struct
 int main()
 {
 	book adr[M]={0};
-	int i; //Счетчик
+	int i, z; //Счетчик
 	int j; //switch
 	char name[N];
 	int phone, phs;
@@ -99,7 +99,6 @@ int main()
 									printf("Имя фамилия: %s\nНомер телефона: %d\n", adr[i].a, adr[i].c);
 									break;
 								}
-
 							}
 					}
 
@@ -114,7 +113,7 @@ int main()
 							{
 								if (adr[i].c!=0)
 								{
-								printf("%s %d\n", adr[i].a, adr[i].c);
+								printf("%d. %s %d\n", z=i+1, adr[i].a, adr[i].c);
 								}
 							}
 
@@ -122,8 +121,6 @@ int main()
 						--k;
 						strncpy(adr[k].a, "0", N);
 						adr[k].c=0;
-											
-
 					}
 
 					break;
@@ -133,7 +130,6 @@ int main()
 						return 0;
 					}
 			}
-
 	}		
 	return 0;
 }
