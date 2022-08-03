@@ -61,7 +61,8 @@ int main()
 								if (adr[i].c==0)
 								{
 								printf("Имя Фамилия:\n");
-								fgets(name, N+1, stdin);
+								fgets(name, N-1, stdin);
+								//while ((name = getchar()) != '\n' && name != EOF);
 								fflush(stdin);
 								name[strlen(name) - 1] = '\0';
 								strncpy(adr[i].a, name, N);
@@ -126,14 +127,14 @@ int main()
 							}
 
 						scanf("%d%*c", &k);
-						--k;
-						if ((k < 1)||(k>M))
+						
+						if ((k <= 0)||(k>M))
 
 							{
-								printf("try again\n");
-								break;
+							printf("try again\n");
+							break;
 							}
-
+						--k;
 						strncpy(adr[k].a, "0", N);
 						adr[k].c=0;
 					}
