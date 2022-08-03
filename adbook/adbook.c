@@ -2,7 +2,7 @@
 #include <string.h>
 
 #define N 20
-#define M 10
+#define M 5
 
 
 typedef struct 
@@ -14,7 +14,7 @@ typedef struct
 int main()
 {
 	book adr[M]={0};
-	int i, z; //Счетчик
+	int i; //Счетчик
 	int j; //switch
 	char name[N];
 	int phone, phs;
@@ -61,7 +61,8 @@ int main()
 								if (adr[i].c==0)
 								{
 								printf("Имя Фамилия:\n");
-								fgets(name, N, stdin);
+								fgets(name, N+1, stdin);
+								fflush(stdin);
 								name[strlen(name) - 1] = '\0';
 								strncpy(adr[i].a, name, N);
 								printf("Номер телефона:\n");
@@ -71,6 +72,13 @@ int main()
 								break;
 								}
 							}
+
+							if (i==M)
+								{
+									printf("Мест нет\n");
+									break;
+								}
+						
 					}
 					break;
 					
@@ -97,9 +105,9 @@ int main()
 								if (phs==adr[i].c)
 								{
 									printf("Имя фамилия: %s\nНомер телефона: %d\n", adr[i].a, adr[i].c);
-									break;
 								}
 							}
+						break;
 					}
 
 					break;
@@ -113,12 +121,19 @@ int main()
 							{
 								if (adr[i].c!=0)
 								{
-								printf("%d. %s %d\n", z=i+1, adr[i].a, adr[i].c);
-								}
+								printf("%d. %s %d\n", i+1, adr[i].a, adr[i].c);
+								} 
 							}
 
 						scanf("%d%*c", &k);
 						--k;
+						if ((k < 1)||(k>M))
+
+							{
+								printf("try again\n");
+								break;
+							}
+
 						strncpy(adr[k].a, "0", N);
 						adr[k].c=0;
 					}
@@ -128,6 +143,14 @@ int main()
 				case 5: //Выход
 					{
 						return 0;
+					}
+
+					break;
+
+				default:
+					{
+						printf("Ошибка\n");
+						break;
 					}
 			}
 	}		
