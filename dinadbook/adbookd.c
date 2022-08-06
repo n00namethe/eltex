@@ -3,39 +3,64 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <malloc.h>
+#include <string.h>
+
+/*int n;
+	printf("Enter size of array\n");
+	scanf("%d%*c", &n);
+	char*ptr1 = (char*)malloc(n);
+
+		if (NULL==ptr1)
+		{
+			printf("sold out\n");
+			return(1);
+		}
+
+			for (int i=0; i<n; ++i)
+			{
+				ptr1[i]=i;
+			}
+
+	printf ("you have a space\n");*/
 
 #define N 20
-#define M 5
-
 
 typedef struct 
 {
-	char a[N]; //name, second name
-	int c; 	   //phone number
+	char namesurname[N]; //name, second name
+	int  phonenum; 	   //phone number
 } book;
 
 int main()
 {
-	book adr[M]={0};
+	int M=3;
+	book*adr=NULL;
+	adr=malloc(M*sizeof(book));
+
 	int i; //Счетчик
 	int j; //switch
 	char name[N];
-	int phone, phs;
+	int p, phs;
 	
-	int*p=&phone;
 	
-	strncpy(adr[0].a, "igor prikhodko", N);
-	adr[0].c=74557;
+	int*phone=&p;
+	
+		strncpy(adr[0].namesurname, "igor prikhodko", N);
+		adr[0].phonenum=74557;
+		
+		strncpy(adr[1].namesurname, "ilya trishin", N);
+		adr[1].phonenum=23453;
+		
+		strncpy(adr[2].namesurname, "efim glazkov", N);
+		adr[2].phonenum=73273;
 
-	strncpy(adr[1].a, "ilya trishin", N);
-	adr[1].c=23453;
 
-	strncpy(adr[2].a, "efim glazkov", N);
-	adr[2].c=73273;
-	for (int i=0; i<3; ++i)
+		
+	for (int i=0; i<M; ++i)
 	{
-		printf("%s %d\n", adr[i].a, adr[i].c);
+		printf("%s %d\n", adr[i].namesurname, adr[i].phonenum);
 	}
+
 
 	while (1)
 	{
@@ -56,33 +81,23 @@ int main()
 
 		switch(j)
 			{
-			
 				case 1: //добавление абонента
 					{
-						for (i=0; i<M; ++i)
+						++M;
+						adr=realloc(adr, sizeof(book)*M);
+						for (i=M; i<M+1; ++i)
 							{
-								if (adr[i].c==0)
-								{
 								printf("Имя Фамилия:\n");
 								fgets(name, N-1, stdin);
 								//while ((name = getchar()) != '\n' && name != EOF);
-								fflush(stdin);
 								name[strlen(name) - 1] = '\0';
-								strncpy(adr[i].a, name, N);
+								strncpy(adr[i-1].namesurname, name, N);
 								printf("Номер телефона:\n");
-								scanf("%d%*c", p);
-								adr[i].c = *p;
-								printf("Добавлен абонент:\n%s% d\n", adr[i].a, adr[i].c);
+								scanf("%d%*c", phone);
+								adr[i-1].phonenum = *phone;
+								printf("Добавлен абонент:\n%s% d\n", adr[i-1].namesurname, adr[i-1].phonenum);
 								break;
-								}
 							}
-
-							if (i==M)
-								{
-									printf("Мест нет\n");
-									break;
-								}
-						
 					}
 					break;
 					
@@ -91,10 +106,7 @@ int main()
 					
 						for (i=0; i<M; ++i)
 							{
-								if (adr[i].c!=0)
-								{
-								printf("%s %d\n", adr[i].a, adr[i].c);
-								}
+								printf("%s %d\n", adr[i].namesurname, adr[i].phonenum);
 							}
 					}
 					break;
@@ -106,9 +118,9 @@ int main()
 
 							for (i=0; i<M; ++i)
 							{
-								if (phs==adr[i].c)
+								if (phs==adr[i].phonenum)
 								{
-									printf("Имя фамилия: %s\nНомер телефона: %d\n", adr[i].a, adr[i].c);
+									printf("Имя фамилия: %s\nНомер телефона: %d\n", adr[i].namesurname, adr[i].phonenum);
 								}
 							}
 						break;
@@ -123,10 +135,7 @@ int main()
 
 							for (i=0; i<M; ++i)
 							{
-								if (adr[i].c!=0)
-								{
-								printf("%d. %s %d\n", i+1, adr[i].a, adr[i].c);
-								} 
+								printf("%d. %s %d\n", i+1, adr[i].namesurname, adr[i].phonenum); 
 							}
 
 						scanf("%d%*c", &k);
@@ -138,8 +147,8 @@ int main()
 							break;
 							}
 						--k;
-						strncpy(adr[k].a, "0", N);
-						adr[k].c=0;
+						strncpy(adr[k].namesurname, "0", N);
+						adr[k].phonenum=0;
 					}
 
 					break;
@@ -156,7 +165,8 @@ int main()
 						printf("Ошибка\n");
 						break;
 					}
-			}
-	}		
+			} 
+	}
+	free(adr);		
 	return 0;
 }
