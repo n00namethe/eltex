@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
+#include <assert.h>
 
 /*int n;
 	printf("Enter size of array\n");
@@ -36,6 +37,11 @@ int main()
 	int M=3;
 	book*adr=NULL;
 	adr=malloc(M*sizeof(book));
+	if (NULL==adr)
+		{
+			printf("что-то не получилось\n");
+			return(1);
+		}
 
 	int i; //Счетчик
 	int j; //switch
@@ -85,19 +91,23 @@ int main()
 					{
 						++M;
 						adr=realloc(adr, sizeof(book)*M);
-						for (i=M; i<M+1; ++i)
+							if (adr==NULL)
 							{
-								printf("Имя Фамилия:\n");
-								fgets(name, N-1, stdin);
-								//while ((name = getchar()) != '\n' && name != EOF);
-								name[strlen(name) - 1] = '\0';
-								strncpy(adr[i-1].namesurname, name, N);
-								printf("Номер телефона:\n");
-								scanf("%d%*c", phone);
-								adr[i-1].phonenum = *phone;
-								printf("Добавлен абонент:\n%s% d\n", adr[i-1].namesurname, adr[i-1].phonenum);
+								free(adr);
+								printf("что-то случилось");
 								break;
 							}
+						printf("Имя Фамилия:\n");
+						fgets(name, N-1, stdin);
+						//while ((name = getchar()) != '\n' && name != EOF);
+						name[strlen(name) - 1] = '\0';
+						strncpy(adr[M-1].namesurname, name, N);
+						printf("Номер телефона:\n");
+						scanf("%d%*c", phone);
+						adr[M-1].phonenum = *phone;
+						printf("Добавлен абонент:\n%s% d\n", adr[M-1].namesurname, adr[M-1].phonenum);
+						break;
+							
 					}
 					break;
 					
