@@ -26,7 +26,6 @@ int main()
 		}
 	int i; //Счетчик
 	int j; //switch
-	char name[N];
 	int p, phs;
 	
 	int*phone=&p;
@@ -53,6 +52,7 @@ int main()
 		scn=scanf("%d%*c", &j);
 			if (scn!=1)
 			{
+				free(adr);
 				printf("You died\n");
 				return 0;
 			}
@@ -61,6 +61,7 @@ int main()
 		{
 				case 1: //добавление абонента
 					{
+						char name[N]={};
 						++M;
 						adr=realloc(adr, sizeof(book)*M);
 							if (adr==NULL)
@@ -71,13 +72,14 @@ int main()
 							}
 						printf("Имя Фамилия:\n");
 						fgets(name, N-1, stdin);
-						name[strlen(name) - 1] = '\0';
 						//while ((getchar()!='\n') && (getchar() != EOF));
+						name[strlen(name) - 1] = '\0';
 						strncpy(adr[M-1].namesurname, name, N);
 						printf("Номер телефона:\n");
 						scn=scanf("%d%*c", phone);
 						if (scn!=1)
 							{
+								free(adr);
 								printf("You died\n");
 								return 0;
 							}
@@ -104,6 +106,7 @@ int main()
 						scn=scanf("%d%*c", &phs);
 						if (scn!=1)
 							{
+								free(adr);
 								printf("You died\n");
 								return 0;
 							}
@@ -133,11 +136,13 @@ int main()
 						scn=scanf("%d%*c", &k);
 						if (scn!=1)
 							{
+								free(adr);
 								printf("You died\n");
 								return 0;
 							}
 						if ((k<=0)||(k>M))
 							{
+								free(adr);
 								printf("try again\n");
 								break;
 							}
