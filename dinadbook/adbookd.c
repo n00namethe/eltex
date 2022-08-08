@@ -72,8 +72,8 @@ int main()
 							}
 						printf("Имя Фамилия:\n");
 						fgets(name, N-1, stdin);
-						//while ((getchar()!='\n') && (getchar() != EOF));
 						name[strlen(name) - 1] = '\0';
+						//while (getchar() != '\n' && getchar() != EOF);
 						strncpy(adr[M-1].namesurname, name, N);
 						printf("Номер телефона:\n");
 						scn=scanf("%d%*c", phone);
@@ -86,7 +86,7 @@ int main()
 						adr[M-1].phonenum=*phone;
 						printf("Добавлен абонент:\n%s% d\n", adr[M-1].namesurname, adr[M-1].phonenum);
 						break;
-							
+						
 					}
 					break;
 					
@@ -110,17 +110,13 @@ int main()
 								printf("You died\n");
 								return 0;
 							}
-
-
-							for (i=0; i<M; ++i)
+						for (i=0; i<M; ++i)
 							{
 								if (phs==adr[i].phonenum)
 								{
 									printf("Имя фамилия: %s\nНомер телефона: %d\n", adr[i].namesurname, adr[i].phonenum);
 								}
 							}		
-						printf("Не найден =(\n");
-						break;
 					}
 
 					break;
@@ -142,7 +138,6 @@ int main()
 							}
 						if ((k<=0)||(k>M))
 							{
-								free(adr);
 								printf("try again\n");
 								break;
 							}
@@ -162,8 +157,8 @@ int main()
 
 				case 5: //Выход
 					{
-						return 0;
 						free(adr);
+						return 0;
 					}
 
 					break;
