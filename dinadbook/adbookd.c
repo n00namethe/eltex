@@ -14,21 +14,30 @@ typedef struct
 	int  phonenum;
 } book;
 
+enum action
+{
+	ADD = 1,
+	LIST,
+	SEARCH,
+	DELETE,
+	EXIT,
+};
+
 int main()
 {
-	int M=3;
-	book*adr=NULL;
-	adr=malloc(M*sizeof(book));
-	if (NULL==adr)
+	int M = 3;
+	book*adr = NULL;
+	book*adr1 = NULL; //just for safe
+	adr = malloc(M*sizeof(book));
+	if (NULL == adr)
 		{
 			printf("ошибка выделения памяти\n");
 			return(1);
 		}
 	int i; //Счетчик
-	int j; //switch
 	int p, phs;
 	
-	int*phone=&p;
+	int*phone = &p;
 	strncpy(adr[0].namesurname, "igor prikhodko", N);
 	adr[0].phonenum=74557;
 		
@@ -37,7 +46,7 @@ int main()
 		
 	strncpy(adr[2].namesurname, "efim glazkov", N);
 	adr[2].phonenum=73273;
-	for (int i=0; i<M; ++i)
+	for (int i = 0; i < M; ++i)
 	{
 		printf("%s %d\n", adr[i].namesurname, adr[i].phonenum);
 	}
@@ -49,8 +58,9 @@ int main()
 		printf("4. Удалить абонента;\n");
 		printf("5. Выход;\n");
 		int scn;
-		scn=scanf("%d%*c", &j);
-			if (scn!=1)
+		int j; //switch
+		scn = scanf("%d%*c", &j);
+			if (scn != 1)
 			{
 				free(adr);
 				printf("You died\n");
@@ -59,16 +69,19 @@ int main()
 		printf("\n");
 		switch(j)
 		{
-				case 1: //добавление абонента
+				case ADD: 
 					{
-						char name[N]={};
+						char name[N] = {};
 						++M;
-						adr=realloc(adr, sizeof(book)*M);
-							if (adr==NULL)
+						adr1 = realloc(adr, sizeof(book)*M);
+						if (adr1 == NULL)
 							{
-								free(adr);
 								printf("ошибка выделения памяти");
 								break;
+							}
+						else
+							{
+							adr = adr1;	
 							}
 						printf("Имя Фамилия:\n");
 						fgets(name, N-1, stdin);
@@ -76,43 +89,43 @@ int main()
 						//while (getchar() != '\n' && getchar() != EOF);
 						strncpy(adr[M-1].namesurname, name, N);
 						printf("Номер телефона:\n");
-						scn=scanf("%d%*c", phone);
-						if (scn!=1)
+						scn = scanf("%d%*c", phone);
+						if (scn != 1)
 							{
 								free(adr);
 								printf("You died\n");
 								return 0;
 							}
-						adr[M-1].phonenum=*phone;
+						adr[M-1].phonenum = *phone;
 						printf("Добавлен абонент:\n%s% d\n", adr[M-1].namesurname, adr[M-1].phonenum);
 						break;
 						
 					}
 					break;
 					
-				case 2: //список абонентов
+				case LIST: //список абонентов
 					{
 						printf("Список абонентов:\n");					
-						for (i=0; i<M; ++i)
+						for (i = 0; i < M; ++i)
 							{
 								printf("%s %d\n", adr[i].namesurname, adr[i].phonenum);
 							}
 					}
 					break;
 
-				case 3: //поиск абонента
+				case SEARCH: //поиск абонента
 					{
 					    printf("Номер телефона\n");
-						scn=scanf("%d%*c", &phs);
-						if (scn!=1)
+						scn = scanf("%d%*c", &phs);
+						if (scn != 1)
 							{
 								free(adr);
 								printf("You died\n");
 								return 0;
 							}
-						for (i=0; i<M; ++i)
+						for (i = 0; i < M; ++i)
 							{
-								if (phs==adr[i].phonenum)
+								if (phs == adr[i].phonenum)
 								{
 									printf("Имя фамилия: %s\nНомер телефона: %d\n", adr[i].namesurname, adr[i].phonenum);
 								}
@@ -121,22 +134,22 @@ int main()
 
 					break;
 
-				case 4: //удаление абонента
+				case DELETE: //удаление абонента
 					{
 						printf("Выберете номер для удаления:\n");
-							for (i=0; i<M; ++i)
+							for (i = 0; i < M; ++i)
 							{
 								printf("%d. %s %d\n", i+1, adr[i].namesurname, adr[i].phonenum); 
 							}
 						int k;
-						scn=scanf("%d%*c", &k);
-						if (scn!=1)
+						scn = scanf("%d%*c", &k);
+						if (scn != 1)
 							{
 								free(adr);
 								printf("You died\n");
 								return 0;
 							}
-						if ((k<=0)||(k>M))
+						if ((k <= 0) || (k > M))
 							{
 								printf("try again\n");
 								break;
@@ -144,18 +157,21 @@ int main()
 						--k;
 						memmove(&adr[k], &adr[k+1], sizeof(book)*(M-k));
 						--M;
-						adr=realloc(adr, sizeof(book)*M);
-						if (adr==NULL)
+						adr1 = realloc(adr, sizeof(book)*M);
+						if (adr1 == NULL)
 							{
-								free(adr);
 								printf("ошибка выделения памяти\n");
 								break;
 							}
+						else
+							{
+								adr = adr1;
+							}	
 						printf("Абонент удален!\n");
 					}
 					break;
 
-				case 5: //Выход
+				case EXIT: //Выход
 					{
 						free(adr);
 						return 0;
