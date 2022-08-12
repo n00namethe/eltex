@@ -27,7 +27,6 @@ int main()
 {
 	int M = 3;
 	book*adr = NULL;
-	book*adr1 = NULL; //just for safe
 	adr = malloc(M*sizeof(book));
 	if (NULL == adr)
 		{
@@ -71,22 +70,23 @@ int main()
 		{
 				case ADD: 
 					{
+						
 						char name[N] = {};
 						++M;
-						adr1 = realloc(adr, sizeof(book)*M);
-						if (adr1 == NULL)
+						book*safe_add_memory = NULL;
+						safe_add_memory = realloc(adr, sizeof(book)*M);
+						if (NULL == safe_add_memory)
 							{
 								printf("ошибка выделения памяти");
 								break;
 							}
 						else
 							{
-							adr = adr1;	
+							adr = safe_add_memory;	
 							}
 						printf("Имя Фамилия:\n");
 						fgets(name, N-1, stdin);
 						name[strlen(name) - 1] = '\0';
-						//while (getchar() != '\n' && getchar() != EOF);
 						strncpy(adr[M-1].namesurname, name, N);
 						printf("Номер телефона:\n");
 						scn = scanf("%d%*c", phone);
@@ -103,7 +103,7 @@ int main()
 					}
 					break;
 					
-				case LIST: //список абонентов
+				case LIST: 
 					{
 						printf("Список абонентов:\n");					
 						for (i = 0; i < M; ++i)
@@ -113,7 +113,7 @@ int main()
 					}
 					break;
 
-				case SEARCH: //поиск абонента
+				case SEARCH: 
 					{
 					    printf("Номер телефона\n");
 						scn = scanf("%d%*c", &phs);
@@ -134,10 +134,10 @@ int main()
 
 					break;
 
-				case DELETE: //удаление абонента
+				case DELETE: 
 					{
 						printf("Выберете номер для удаления:\n");
-							for (i = 0; i < M; ++i)
+						for (i = 0; i < M; ++i)
 							{
 								printf("%d. %s %d\n", i+1, adr[i].namesurname, adr[i].phonenum); 
 							}
@@ -157,21 +157,22 @@ int main()
 						--k;
 						memmove(&adr[k], &adr[k+1], sizeof(book)*(M-k));
 						--M;
-						adr1 = realloc(adr, sizeof(book)*M);
-						if (adr1 == NULL)
+						book*safe_remove_memory = NULL;
+						safe_remove_memory = realloc(adr, sizeof(book)*M);
+						if (NULL == safe_remove_memory)
 							{
 								printf("ошибка выделения памяти\n");
 								break;
 							}
 						else
 							{
-								adr = adr1;
+								adr = safe_remove_memory;
 							}	
 						printf("Абонент удален!\n");
 					}
 					break;
 
-				case EXIT: //Выход
+				case EXIT: 
 					{
 						free(adr);
 						return 0;
