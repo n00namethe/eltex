@@ -1,0 +1,4 @@
+*.so
+*.o
+/dlib/build
+/lib/build/
